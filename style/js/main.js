@@ -27,7 +27,7 @@ const app = Vue.createApp({
             localStorage.setItem('theme', this.currentTheme);
         },
         async getListFromSheet(){
-            var res = await axios.get('https://script.google.com/macros/s/AKfycbw1CkxMrBYIDplcmFyFZtARd52n27YSki3hhOX2KipdY_KhMR-bMx0RTgju9DuA9wf2Cg/exec?action=getclips');
+            var res = await axios.get('https://script.google.com/macros/s/AKfycbzvUh5fTRu-7BBDc8bSp3Bc1IToi0G7ZgjtCp0mrZOQm0OPLvlKQbyMA2mmbEpMTgarqg/exec?action=getclips');
             console.log(res.data);
             this.urls = res.data;
         },
@@ -44,13 +44,17 @@ const app = Vue.createApp({
            console.log(res.data);
            this.token = res.data.access_token;
         },
+        //取得剪輯
         async getClips(){
             await this.getToken();
             await this.getListFromSheet();
-            // Step 1: 抽出網址的最後一段當作 ID
-            const ids = this.urls.map(item => item[0].split('/').pop());
-
-            // Step 2: 拼接 API URL
+            // 抽出網址中 clip/ 後面到 ? 前的部分作為 ID
+            const ids = this.urls.map(item => {
+                const match = item[0].match(/clip\/([^?]+)/);
+                return match ? match[1] : null;
+            }).filter(id => id);
+              
+            // 拼接 API URL
             const twitchClipsApiUrl = `https://api.twitch.tv/helix/clips?` + ids.map(id => `id=${id}`).join('&');
 
             var res = await axios.get(twitchClipsApiUrl,{
@@ -62,13 +66,12 @@ const app = Vue.createApp({
             console.log(res.data);
             this.clips = res.data;
         },
-        formatDuration(seconds) {
+        //計算影片秒數
+        formatDuration(seconds) { 
             const mins = Math.floor(seconds / 60);
             const secs = Math.floor(seconds % 60);
             return `${mins}:${secs.toString().padStart(2, '0')}`;
         },
-        
-        
     },
     computed:{
         totalDuration() {
