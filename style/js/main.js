@@ -27,7 +27,7 @@ const app = Vue.createApp({
             localStorage.setItem('theme', this.currentTheme);
         },
         async getListFromSheet(){
-            var res = await axios.get('https://script.google.com/macros/s/AKfycbwGeHrzOQ0ZrdfwGMwU0fUi-7yVi7kYRV2PSQPirjcYmB4gZMGD9BVorTNWgLDsIaGn/exec');
+            var res = await axios.get('https://script.google.com/macros/s/AKfycbw1CkxMrBYIDplcmFyFZtARd52n27YSki3hhOX2KipdY_KhMR-bMx0RTgju9DuA9wf2Cg/exec?action=getclips');
             console.log(res.data);
             this.urls = res.data;
         },

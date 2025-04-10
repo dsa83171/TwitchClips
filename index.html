@@ -36,8 +36,8 @@
         
         
     
-        <div class="duration-summary">
-            🎬 目前總片長：{{ totalDuration }}
+        <div class="duration-summary" v-if="clips !=''">
+            🎬 目前共 {{clips.data.length}} 部剪輯
         </div>    
     
         <div class="grid">

@@ -1,3 +1,6 @@
+a{
+    text-decoration: none !important;
+}
 body {
     background-color: #0e0e10;
     color: #f0f0f0;
@@ -170,7 +173,7 @@ body.light-theme .card-title {
 }
 
 body.light-theme .card-title:hover {
-    color: #007bff;
+    color: #8b4bd8;
 }
 
 body.light-theme .duration-summary {
@@ -178,11 +181,11 @@ body.light-theme .duration-summary {
 }
 
 body.light-theme .theme-toggle button {
-    background-color: #007bff;
+    background-color: #bb86fc;
 }
 
 body.light-theme .theme-toggle button:hover {
-    background-color: #0056b3;
+    background-color: #8b4bd8;
 }
 
 /* 按鈕樣式 */
@@ -277,6 +280,7 @@ body.dark-theme .card:hover::before {
 
 .card-title:hover {
     color: #bb86fc;
+    text-decoration: none;
 }
 
 /* 💜 時間標籤樣式強化 */
@@ -294,19 +298,6 @@ body.dark-theme .card:hover::before {
 }
 
 /* 等待資料讀取Spinner */
-/*  暗色主題 Spinner */
-.loading-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(20, 20, 20, 0.9);
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 0 10px #9146FF;
-    color: white;
-}
 body.dark-theme .twitch-spinner {
     width: 48px;
     height: 48px;
@@ -330,7 +321,7 @@ body.light-theme .twitch-spinner {
     width: 48px;
     height: 48px;
     border: 4px solid rgba(0, 123, 255, 0.2); /* 淺藍色邊框 */
-    border-top-color: #007bff; /* 亮藍色 */
+    border-top-color: #bb86fc; /* 亮藍色 */
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
     margin: 0 auto;
@@ -339,7 +330,7 @@ body.light-theme .twitch-spinner {
 body.light-theme .loading-text {
     margin-top: 10px;
     font-size: 1.1rem;
-    color: #007bff; /* 亮藍色 */
+    color: #333333; /* 亮藍色 */
     font-weight: bold;
     text-align: center;
 }
@@ -352,3 +343,29 @@ body.light-theme .loading-text {
 }
 
 
+/* 🌙 暗色主題的 loading 背景 */
+body.dark-theme .loading-container {
+    background: rgba(30, 30, 30, 0.9);
+    color: #bb86fc;
+    box-shadow: 0 0 10px rgba(187, 134, 252, 0.3);
+}
+
+/* ☀️ 亮色主題的 loading 背景 */
+body.light-theme .loading-container {
+    background: rgba(255, 255, 255, 0.95);
+    color: #bb86fc;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 通用樣式 */
+.loading-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 1000;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
