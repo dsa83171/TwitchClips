@@ -1,0 +1,354 @@
+body {
+    background-color: #0e0e10;
+    color: #f0f0f0;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#main {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.title-glow {
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(90deg, #8c34f8, #9575cd, #c39af6);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glowMove 3s ease infinite;
+    text-shadow: 0 0 6px rgba(187, 134, 252, 0.4), 0 0 12px rgba(187, 134, 252, 0.3);
+    font-family: 'Orbitron', 'Segoe UI', sans-serif;
+    letter-spacing: 2px;
+    
+}
+
+@keyframes glowMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+
+
+.duration-summary {
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #cfcfcf;
+    font-size: 1.1rem;
+}
+
+
+
+.grid {
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+    gap: 24px;
+}
+
+.card {
+    background-color: #1f1f23;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(145, 70, 255, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(145, 70, 255, 0.3);
+}
+
+.thumbnail-container {
+    position: relative;
+    display: block;
+}
+
+.card-img-top {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-bottom: 1px solid #333;
+}
+
+.duration-badge {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.card-body {
+    padding: 16px;
+}
+
+.card-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0 0 12px 0;
+    color: #fff;
+}
+
+.card-title:hover {
+    text-decoration: underline;
+    color: #9146FF;
+}
+
+.card-creator {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin: 0;
+}
+/* 🌙 暗色主題 */
+body.dark-theme {
+    background-color: #1c1c1e;
+    color: #e0e0e0;
+}
+
+body.dark-theme .card {
+    background-color: #2a2a2e;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+body.dark-theme .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(187, 134, 252, 0.4);
+    border-color: rgba(187, 134, 252, 0.4);
+}
+
+body.dark-theme .card-title {
+    color: #ffffff;
+}
+
+body.dark-theme .card-title:hover {
+    color: #bb86fc;
+}
+
+body.dark-theme .card-creator {
+    color: #cccccc;
+}
+
+body.dark-theme .duration-summary {
+    color: #dddddd;
+}
+
+/* 提升 badge 對比 */
+body.dark-theme .duration-badge {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+}
+
+
+
+/* ☀️ 亮色主題 */
+body.light-theme {
+    background-color: #f3f3f3;
+    color: #1f1f1f;
+}
+
+body.light-theme .card {
+    background-color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+body.light-theme .card-title {
+    color: #222;
+}
+
+body.light-theme .card-title:hover {
+    color: #007bff;
+}
+
+body.light-theme .duration-summary {
+    color: #333;
+}
+
+body.light-theme .theme-toggle button {
+    background-color: #007bff;
+}
+
+body.light-theme .theme-toggle button:hover {
+    background-color: #0056b3;
+}
+
+/* 按鈕樣式 */
+.theme-toggle {
+    text-align: right;
+    margin-bottom: 1rem;
+}
+
+.theme-toggle button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #9146FF;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.theme-toggle button:hover {
+    background-color: #722fd0;
+}
+
+/* card 潮流感主題特效 */
+body.dark-theme .card {
+    position: relative;
+    background: linear-gradient(145deg, #2a2a2e, #1f1f23);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(187, 134, 252, 0.2);
+    box-shadow: 0 6px 18px rgba(187, 134, 252, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+}
+
+body.dark-theme .card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 10px 24px rgba(187, 134, 252, 0.5), 0 0 10px rgba(187, 134, 252, 0.4);
+    border: 1px solid rgba(187, 134, 252, 0.5);
+}
+
+/* 滑過時的閃光掃描 */
+body.dark-theme .card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.05) 100%
+    );
+    transform: skewX(-20deg);
+    transition: none;
+    pointer-events: none;
+}
+
+body.dark-theme .card:hover::before {
+    animation: shine 1s ease-in-out forwards;
+}
+
+@keyframes shine {
+    0% {
+        left: -75%;
+    }
+    100% {
+        left: 125%;
+    }
+}
+
+/* 卡片圖片稍微圓角、過濾紫光 */
+.card-img-top {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    filter: brightness(1.05) contrast(1.05);
+    transition: filter 0.3s ease;
+}
+
+.card:hover .card-img-top {
+    filter: brightness(1.15) contrast(1.15);
+}
+
+/* card 標題顏色與 hover 效果 */
+.card-title {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+}
+
+.card-title:hover {
+    color: #bb86fc;
+}
+
+/* 💜 時間標籤樣式強化 */
+.duration-badge {
+    background: rgba(30, 30, 30, 0.9);
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 3px 6px;
+    border-radius: 4px;
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+}
+
+/* 等待資料讀取Spinner */
+/*  暗色主題 Spinner */
+.loading-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(20, 20, 20, 0.9);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 0 10px #9146FF;
+    color: white;
+}
+body.dark-theme .twitch-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #bb86fc;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto;
+}
+
+body.dark-theme .loading-text {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    color: #bb86fc;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* 亮色主題 Spinner */
+body.light-theme .twitch-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba(0, 123, 255, 0.2); /* 淺藍色邊框 */
+    border-top-color: #007bff; /* 亮藍色 */
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto;
+}
+
+body.light-theme .loading-text {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    color: #007bff; /* 亮藍色 */
+    font-weight: bold;
+    text-align: center;
+}
+
+/* 🔄 Spinner 旋轉動畫 */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+

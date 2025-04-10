@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <link href="" rel="shortcut icon"/>
     <link rel="stylesheet" type="text/css" href="style/css/style.css">
     <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-icons/bootstrap-icons.css">
+    <!-- Orbitron 字體 -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style/css/swiper-bundle.min.css" />
     <script type="module" src="style/js/main.js"></script>
     <title>阿痕 - Twitch剪輯</title>
@@ -17,23 +20,41 @@
 </head>
 <body>
     <div id="main">
-        <h1>Test</h1>
-        <p>{{test}}</p>
-        <button @click="btnClick">Btn</button>
+        <h2 class="title-glow">Twitch Clips</h2>
+         <!-- 主題切換按鈕 -->
+        <div class="theme-toggle">
+            <button @click="toggleTheme">
+                {{ currentTheme === 'dark' ? '🌞 切換為亮色主題' : '🌙 切換為暗色主題' }}
+            </button>
+        </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>C語錄</th>
-                </tr>
-            </thead>
-            <tbody> 
-                <tr v-for="cQuotes in ccList">
-                    <td>{{cQuotes}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <!-- 資料讀取顯示Loading -->
+        <div class="loading-container" v-if="clips == ''" :class="{ show: clips === '' }">
+            <div class="twitch-spinner"></div>
+            <div class="loading-text">Loading Twitch Clips...</div>
+        </div>
+        
+        
+    
+        <div class="duration-summary">
+            🎬 目前總片長：{{ totalDuration }}
+        </div>    
+    
+        <div class="grid">
+            <div v-for="clip in clips.data" class="card">
+                <a :href="clip.url" target="_blank" class="thumbnail-container">
+                    <img :src="clip.thumbnail_url" class="card-img-top" alt="...">
+                    <span class="duration-badge">{{ formatDuration(clip.duration) }}</span>
+                </a>
+                <div class="card-body">
+                    <a :href="clip.url" target="_blank">
+                        <h5 class="card-title">{{ clip.title }}</h5>
+                    </a>
+                    <p class="card-creator">剪輯者: {{ clip.creator_name }}</p>
+                </div>
+            </div>
+        </div>
+    </div>    
 </body>
 
 <footer>
