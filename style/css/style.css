@@ -369,3 +369,150 @@ body.light-theme .loading-container {
     z-index: 1000;
     transition: background 0.3s ease, box-shadow 0.3s ease;
 }
+.theme-toggle-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.theme-switch-icon {
+    position: relative;
+    display: inline-block;
+    width: 70px;
+    height: 36px;
+}
+
+.theme-switch-icon input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider-icon {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    border-radius: 36px;
+    transition: background-color 0.4s ease;
+}
+
+.slider-icon::before {
+    content: attr(data-icon);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: white; /* 讓 emoji 更明顯 */
+    height: 28px;
+    width: 28px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #333; /* 深色底，對比強 */
+    transition: transform 0.4s ease, background-color 0.3s ease;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 2;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+}
+  
+/* 亮色主題 */
+body.light-theme .slider-icon::before {
+    background-color: white;
+    color: #333; /* 深色太陽圖示 */
+  }
+  
+/* 暗色主題 */
+body.dark-theme .slider-icon::before {
+    background-color: #333;
+    color: #fff; /* 亮色月亮圖示 */
+}
+
+/* 太陽與月亮圖示 */
+.icon {
+    position: absolute;
+    top: 6px;
+    font-size: 18px;
+    z-index: 1;
+    transition: opacity 0.4s ease;
+}
+
+.sun {
+    left: 10px;
+    opacity: 1;
+}
+
+.moon {
+    right: 10px;
+    opacity: 0;
+}
+
+/* 切換時動畫與樣式變化 */
+input:checked + .slider-icon {
+    background-color: #997af6;
+}
+
+input:checked + .slider-icon::before {
+    transform: translateX(34px);
+}
+
+input:checked + .slider-icon .sun {
+    opacity: 0;
+}
+
+input:checked + .slider-icon .moon {
+    opacity: 1;
+}
+
+.view-count{
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+    margin-bottom: 0;
+}
+
+.clip_img{
+    position: relative;
+}
+.player-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.player-container {
+    position: relative;
+    background: #000;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+}
+  
+.close-btn {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    background: #fff;
+    border: none;
+    font-size: 24px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    line-height: 1;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    transition: transform 0.2s;
+}
+.close-btn:hover {
+    transform: scale(1.1);
+}
+  

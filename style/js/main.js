@@ -5,26 +5,36 @@ const app = Vue.createApp({
             apiUrl:"",
             urls:[],
             clips:[],
-            currentTheme: 'dark', // 預設暗色主題
-        }
+            isDarkTheme: true,
+            showPlayer: false,
+            currentEmbedUrl: '',
+        };
+    },
+    created() {
+        const storedTheme = localStorage.getItem("theme");
+        this.isDarkTheme = storedTheme === "dark-theme";
+        this.applyTheme();
     },
     mounted(){
         this.getClips();
-
-        // 從 localStorage 讀主題，若沒有則預設 dark
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        this.currentTheme = savedTheme;
-        document.body.classList.add(`${this.currentTheme}-theme`);
     },
     methods:{
         toggleTheme() {
-            const oldTheme = this.currentTheme;
-            this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
-    
-            document.body.classList.remove(`${oldTheme}-theme`);
-            document.body.classList.add(`${this.currentTheme}-theme`);
-            // 存入 localStorage
-            localStorage.setItem('theme', this.currentTheme);
+            const theme = this.isDarkTheme ? "dark-theme" : "light-theme";
+            localStorage.setItem("theme", theme);
+            this.applyTheme();
+        },
+        applyTheme() {
+            const theme = this.isDarkTheme ? "dark-theme" : "light-theme";
+            document.body.className = theme;
+          
+            // 換圓球上的 emoji
+            this.$nextTick(() => {
+                const sliderParent = document.querySelector(".slider-icon");
+                if (sliderParent) {
+                    sliderParent.setAttribute("data-icon", this.isDarkTheme ? "🌙" : "☀️");
+                }
+            });
         },
         async getListFromSheet(){
             var res = await axios.get('https://script.google.com/macros/s/AKfycbxJVw6Lp0h5j0WohEMmWzBpEGtDZYDZcVerr5nqDRyWpzMylEi_uNbA-1Im9Pfddl9r9A/exec?action=getclips');
@@ -72,6 +82,14 @@ const app = Vue.createApp({
             const secs = Math.floor(seconds % 60);
             return `${mins}:${secs.toString().padStart(2, '0')}`;
         },
+        openPlayer(clipId) {
+            this.currentEmbedUrl = `https://clips.twitch.tv/embed?clip=${clipId}&parent=${window.location.hostname}`;
+            this.showPlayer = true;
+        },
+        closePlayer() {
+            this.showPlayer = false;
+            this.currentEmbedUrl = '';
+        }
     },
     computed:{
         totalDuration() {

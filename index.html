@@ -22,10 +22,11 @@
     <div id="main">
         <h2 class="title-glow">Twitch Clips</h2>
          <!-- 主題切換按鈕 -->
-        <div class="theme-toggle">
-            <button @click="toggleTheme">
-                {{ currentTheme === 'dark' ? '🌞 切換為亮色主題' : '🌙 切換為暗色主題' }}
-            </button>
+        <div class="theme-toggle-container">
+            <label class="theme-switch-icon">
+                <input type="checkbox" v-model="isDarkTheme" @change="toggleTheme">
+                <span class="slider-icon" :data-icon="isDarkTheme ? '🌙' : '☀️'"></span>
+            </label>
         </div>
 
         <!-- 資料讀取顯示Loading -->
@@ -41,17 +42,32 @@
         </div>    
     
         <div class="grid">
-            <div v-for="clip in clips.data" class="card">
-                <a :href="clip.url" target="_blank" class="thumbnail-container">
-                    <img :src="clip.thumbnail_url" class="card-img-top" alt="...">
-                    <span class="duration-badge">{{ formatDuration(clip.duration) }}</span>
-                </a>
-                <div class="card-body">
-                    <a :href="clip.url" target="_blank">
+            <div v-for="clip in clips.data" class="card" @click="openPlayer(clip.id)" style="cursor: pointer;">
+                <div class="thumbnail-container">
+                    <div class="clip_img">
+                        <img :src="clip.thumbnail_url" class="card-img-top" alt="...">
+                        <span class="duration-badge">{{ formatDuration(clip.duration) }}</span>
+                    </div>
+                    <div class="card-body">
                         <h5 class="card-title">{{ clip.title }}</h5>
-                    </a>
-                    <p class="card-creator">剪輯者: {{ clip.creator_name }}</p>
+                        <p class="card-creator">頻道: {{ clip.broadcaster_name }}</p>
+                        <p class="card-creator" style="margin-bottom:1rem;">剪輯者: {{ clip.creator_name }}</p>
+                        <p class="card-creator view-count">觀看數: {{ clip.view_count }}</p>
+                    </div>
                 </div>
+            </div>
+        </div>
+        <div v-if="showPlayer" class="player-overlay" @click.self="closePlayer">
+            <div class="player-container">
+                <button class="close-btn" @click="closePlayer">✕</button>
+                <iframe
+                    v-if="currentEmbedUrl"
+                    :src="currentEmbedUrl"
+                    width="800"
+                    height="450"
+                    frameborder="0"
+                    allowfullscreen>
+                </iframe>
             </div>
         </div>
     </div>    
