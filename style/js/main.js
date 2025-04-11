@@ -17,7 +17,9 @@ const app = Vue.createApp({
     },
     created() {
         const storedTheme = localStorage.getItem("theme");
-        this.isDarkTheme = storedTheme === "dark-theme";
+        if(storedTheme != null){
+            this.isDarkTheme = storedTheme === "dark-theme";
+        }
         this.applyTheme();
     },
     mounted(){
