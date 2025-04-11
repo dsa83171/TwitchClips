@@ -52,9 +52,9 @@
                         <h5 class="card-title">{{ clip.title }}</h5>
                         <p class="card-creator">頻道: {{ clip.broadcaster_name }}</p>
                         <p class="card-creator" style="margin-bottom:1rem;">剪輯者: {{ clip.creator_name }}</p>
-                        <p class="card-creator view-count">觀看數: {{ clip.view_count }}</p>
                     </div>
                 </div>
+                <p class="card-creator view-count">觀看數: {{ clip.view_count }}</p>
             </div>
         </div>
         <div v-if="showPlayer" class="player-overlay" @click.self="closePlayer">
