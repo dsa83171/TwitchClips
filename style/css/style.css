@@ -55,6 +55,7 @@ body {
 }
 
 .card {
+    position: relative;
     background-color: #1f1f23;
     border-radius: 12px;
     overflow: hidden;
