@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style/css/swiper-bundle.min.css" />
     <script type="module" src="style/js/main.js?v=1.0"></script>
-    <title>阿痕 - Twitch剪輯</title>
     <!-- <meta name="description" content=""> -->
     <!-- <meta name="canonical" href="https://dsa83171.github.io/"> -->
 
@@ -20,6 +19,8 @@
 </head>
 <body>
     <div id="main">
+        <title>{{name}}</title>
+
         <h2 class="title-glow">Twitch Clips</h2>
          <!-- 主題切換按鈕 -->
         <div class="theme-toggle-container">
@@ -29,6 +30,32 @@
             </label>
         </div>
 
+        <!-- 問號 ICON -->
+        <div class="help-icon" @click="showHelp = true">
+            ?
+        </div>
+        
+        <!-- 彈出說明 MODAL -->
+        <div class="help-modal-overlay" v-if="showHelp" @click.self="showHelp = false">
+            <div class="help-modal">
+                <h3>如何載入自己的Google Sheet:</h3>
+                <ul>
+                    <li>你可以在網址後加上參數來載入自定義資料。</li>
+                    <li>name：會顯示在網頁上的標題名稱。</li>
+                    <li>id：Google sheet 的 SPREADSHEET_ID</br>
+                        <code>https://docs.google.com/spreadsheets/d/<strong>{SPREADSHEET_ID}</strong>/edit?gid=SHEET_ID#gid=SHEET_ID</code>
+                    </li>
+                    <li>例如：<br>
+                        <code>https://dsa83171.github.io/TwitchClips?name=阿痕 - Twitch剪輯&id=abc123</code>
+                    </li>
+                    <li>
+                        <b>注意: Google sheet的資料讀取從<span style="color:#f76060">A2欄位</span>開始，且工作表名稱必須填寫<span style="color:#f76060">Sheet1</span></b>。
+                    </li>
+                    <img src="img/sheetExample.jpg" max-width="700px" width="90%">
+                </ul>
+                <button class="modal-close-btn" @click="showHelp = false">關閉</button>
+            </div>
+        </div>
         <!-- 資料讀取顯示Loading -->
         <div class="loading-container" v-if="clips == ''" :class="{ show: clips === '' }">
             <div class="twitch-spinner"></div>
@@ -40,9 +67,22 @@
         <div class="duration-summary" v-if="clips !=''">
             🎬 目前共 {{clips.data.length}} 部剪輯
         </div>    
-    
+        <div class="sort-controls" v-if="clips !=''">
+            <label>排序依據：</label>
+            <select v-model="sortKey">
+                <option value="created_at">建立時間</option>
+                <option value="title">標題</option>
+                <option value="broadcaster_name">頻道</option>
+                <option value="creator_name">剪輯者</option>
+                <option value="view_count">觀看數</option>
+            </select>
+          
+            <button @click="toggleSortOrder">
+                {{ sortOrder === 'asc' ? '↑ 升序' : '↓ 降序' }}
+            </button>
+        </div>
         <div class="grid">
-            <div v-for="clip in clips.data" class="card" @click="openPlayer(clip.id)" style="cursor: pointer;">
+            <div v-for="clip in sortedClips" class="card" @click="openPlayer(clip.id)" style="cursor: pointer;">
                 <div class="thumbnail-container">
                     <div class="clip_img">
                         <img :src="clip.thumbnail_url" class="card-img-top" alt="...">
@@ -51,7 +91,8 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ clip.title }}</h5>
                         <p class="card-creator">頻道: {{ clip.broadcaster_name }}</p>
-                        <p class="card-creator" style="margin-bottom:1rem;">剪輯者: {{ clip.creator_name }}</p>
+                        <p class="card-creator">剪輯者: {{ clip.creator_name }}</p>
+                        <p class="card-creator" style="margin-bottom:1rem;">建立時間：{{ formatLocalTime(clip.created_at) }}</p>
                     </div>
                 </div>
                 <p class="card-creator view-count">觀看數: {{ clip.view_count }}</p>
