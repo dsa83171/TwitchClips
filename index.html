@@ -86,7 +86,7 @@
                 <div class="channel-grid">
                     <div v-for="clip in clips" :key="clip.id" class="card">
                         <!-- 原卡片內容 -->
-                        <div class="thumbnail-container" @click="openPlayer(clip.embed_url)">
+                        <div class="thumbnail-container" @click="openPlayer(clip.id)">
                             <div class="clip_img">
                                 <img :src="clip.thumbnail_url" class="card-img-top" alt="...">
                                 <span class="duration-badge">{{ formatDuration(clip.duration) }}</span>
