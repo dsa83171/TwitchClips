@@ -153,7 +153,18 @@ const app = Vue.createApp({
                     return 0;
                 });
             }
+        },
+        groupedByChannel() {
+            if (this.sortKey !== 'broadcaster_name') return null;
+        
+            return this.clips.data.reduce((groups, clip) => {
+                const key = clip.broadcaster_name || '未分類';
+                if (!groups[key]) groups[key] = [];
+                groups[key].push(clip);
+                return groups;
+            }, {});
         }
+        
     }
 })
 app.mount("#main");
