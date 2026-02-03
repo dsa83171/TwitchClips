@@ -5,6 +5,7 @@ const app = Vue.createApp({
             apiUrl:"",
             urls:[],
             clips:[],
+            diff_ids:[],
             isDarkTheme: true,
             showPlayer: false,
             currentEmbedUrl: '',
@@ -25,6 +26,7 @@ const app = Vue.createApp({
     mounted(){
         this.getTitleName();
         this.getClips();
+        this.checkDiff();
     },
     methods:{
         getTitleName(){
@@ -68,7 +70,6 @@ const app = Vue.createApp({
                 sheetAPI = sheetAPI+"&sheetid="+this.sheetId;
             }
             var res = await axios.get(sheetAPI);
-            console.log(res.data);
             this.urls = res.data;
         },
         // 取得Twitch token
@@ -87,26 +88,69 @@ const app = Vue.createApp({
         },
         //取得剪輯
         async getClips(){
-            await this.getToken();
+            try {
+                const res = await axios.get('https://api-server.dsa83171.workers.dev/api/clips');
+                this.clips = res.data;
+            } catch (error) {
+                console.error("抓取剪輯失敗:", error);
+            }
+        },
+        //取得CFDB的所有剪輯資料
+        async checkDiff(){
             await this.getListFromSheet();
-            //(?:clip\/|clips\.twitch\.tv\/)  匹配 clip/ 或 clips.twitch.tv/ 抓取{id}
+            // 取得google sheet 清單中的剪輯ID
             const ids = this.urls.map(item => {
                 const url = item[0];
                 const match = url.match(/(?:clip\/|clips\.twitch\.tv\/)([^/?]+)/);
                 return match ? match[1] : null;
             }).filter(id => id);
-              
-            // 拼接 API URL
-            const twitchClipsApiUrl = `https://api.twitch.tv/helix/clips?` + ids.map(id => `id=${id}`).join('&');
+
+            // 取得CFDB的所有剪輯ID
+            const clips_ids = await this.getCFDB_IDs();
+
+            // 比對差異ID
+            const existingIdsSet = new Set(clips_ids.map(item => item.id));
+            this.diff_ids = ids.filter(id => !existingIdsSet.has(id));
+            console.log("差異ID:", this.diff_ids);
+            //有差異就去抓Twitch剪輯資料
+            if(this.diff_ids.length > 0){
+                await this.getTwitchClip();
+                await this.getClips();
+            }
+        },
+        async getTwitchClip(){
+            await this.getToken();
+            let twitchClipsApiUrl = `https://api.twitch.tv/helix/clips?`;
+
+            this.diff_ids.forEach((clipId) => {
+                twitchClipsApiUrl+=`id=${clipId}&`;
+            });
 
             var res = await axios.get(twitchClipsApiUrl,{
-                 headers: { 
+                headers: { 
                     'Authorization': 'Bearer '+this.token,
                     'Client-Id': '2hcw7jubxmk94gkrzhao4wbznzobjv'
                 }
             });
             console.log(res.data);
-            this.clips = res.data;
+            let clipsData = res.data.data;
+                //逐筆上傳至CFDB
+                for(let i=0; i<clipsData.length; i++){
+                    await this.postToCFDB(clipsData[i]);
+                }
+            },
+        async postToCFDB(clipData){
+            const res = await axios.post('https://api-server.dsa83171.workers.dev/api/clips',clipData);
+            console.log("上傳結果:", res.data);
+        },
+        //取得所有ID
+        async getCFDB_IDs(){
+            try {
+                const res = await axios.get('https://api-server.dsa83171.workers.dev/api/clips/ids');
+                return res.data.data; // 直接存 data，方便 computed 處理
+            } catch (error) {
+                console.error("抓取剪輯失敗:", error);
+            }
         },
         //計算影片秒數
         formatDuration(seconds) { 

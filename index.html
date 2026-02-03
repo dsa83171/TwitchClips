@@ -27,32 +27,6 @@
             </label>
         </div>
 
-        <!-- 問號 ICON -->
-        <div class="help-icon" @click="showHelp = true">
-            ?
-        </div>
-        
-        <!-- 彈出說明 MODAL -->
-        <div class="help-modal-overlay" v-if="showHelp" @click.self="showHelp = false">
-            <div class="help-modal">
-                <h3>如何載入自己的Google Sheet:</h3>
-                <ul>
-                    <li>你可以在網址後加上參數來載入自定義資料。</li>
-                    <li>name：會顯示在網頁上的標題名稱。</li>
-                    <li>id：Google sheet 的 SPREADSHEET_ID</br>
-                        <code>https://docs.google.com/spreadsheets/d/<strong>{SPREADSHEET_ID}</strong>/edit?gid=SHEET_ID#gid=SHEET_ID</code>
-                    </li>
-                    <li>例如：<br>
-                        <code>https://dsa83171.github.io/TwitchClips?name=阿痕 - Twitch剪輯&id=abc123</code>
-                    </li>
-                    <li>
-                        <b>注意: Google sheet的資料讀取從<span style="color:#f76060">A2欄位</span>開始，且工作表名稱必須填寫<span style="color:#f76060">Sheet1</span></b>。
-                    </li>
-                    <img src="img/sheetExample.jpg" max-width="700px" width="90%">
-                </ul>
-                <button class="modal-close-btn" @click="showHelp = false">關閉</button>
-            </div>
-        </div>
         <!-- 資料讀取顯示Loading -->
         <div class="loading-container" v-if="clips == ''" :class="{ show: clips === '' }">
             <div class="twitch-spinner"></div>
